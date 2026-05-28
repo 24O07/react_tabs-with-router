@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Tab } from '../types/Tab';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import { Tab as TabType } from '../types/Tab';
 
-const tabs: Tab[] = [
+const tabs: TabType[] = [
   { id: 'tab-1', title: 'Tab 1', content: 'Some text 1' },
   { id: 'tab-2', title: 'Tab 2', content: 'Some text 2' },
   { id: 'tab-3', title: 'Tab 3', content: 'Some text 3' },
@@ -10,34 +11,56 @@ const tabs: Tab[] = [
 
 export const TabsPage: React.FC = () => {
   const { tabId } = useParams<{ tabId: string }>();
+  const navigate = useNavigate();
 
-  const currentTab = tabs.find(tab => tab.id === tabId);
+  const currentIdx = tabs.findIndex(tab => tab.id === tabId);
+
+  const selectedIndex = currentIdx >= 0 ? currentIdx : -1;
+
+  const handleSelect = (index: number) => {
+    const targetTab = tabs[index];
+    navigate(`/tabs/${targetTab.id}`);
+  };
 
   return (
     <>
       <h1 className="title">Tabs page</h1>
 
-      <div className="tabs is-boxed">
-        <ul>
-          {tabs.map(tab => {
-            const isActive = tab.id === tabId;
+      <Tabs
+        selectedIndex={selectedIndex}
+        onSelect={handleSelect}
+        selectedTabClassName="is-active"
+      >
+        <div className="tabs is-boxed">
+          <TabList>
+            {tabs.map(tab => (
+              <Tab key={tab.id} data-cy="Tab">
+                <a href={`#/tabs/${tab.id}`} onClick={e => e.preventDefault()}>
+                  {tab.title}
+                </a>
+              </Tab>
+            ))}
+          </TabList>
+        </div>
+
+        {selectedIndex === -1 ? (
+          <div className="block" data-cy="TabContent">
+            Please select a tab
+          </div>
+        ) : (
+          tabs.map(tab => {
+            const isCurrent = tab.id === tabId;
 
             return (
-              <li
-                key={tab.id}
-                data-cy="Tab"
-                className={isActive ? 'is-active' : ''}
-              >
-                <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
-              </li>
+              <TabPanel key={tab.id}>
+                <div className="block" data-cy="TabContent">
+                  {isCurrent ? tab.content : 'Please select a tab'}
+                </div>
+              </TabPanel>
             );
-          })}
-        </ul>
-      </div>
-
-      <div className="block" data-cy="TabContent">
-        {currentTab ? currentTab.content : 'Please select a tab'}
-      </div>
+          })
+        )}
+      </Tabs>
     </>
   );
 };

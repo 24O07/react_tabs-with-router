@@ -16,11 +16,7 @@ export const App: React.FC = () => {
 
   return (
     <>
-      {/* Навігація сайту */}
-      <nav
-        className="navbar is-light is-fixed-top is-mobile has-shadow"
-        data-cy="Nav"
-      >
+      <nav className="navbar is-light is-fixed-top is-mobile has-shadow" data-cy="Nav">
         <div className="container">
           <div className="navbar-brand">
             <Link
@@ -39,20 +35,17 @@ export const App: React.FC = () => {
         </div>
       </nav>
 
-      {/* Головний контейнер для сторінок */}
       <div className="section">
         <div className="container">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="home" element={<Navigate to="/" replace />} />
 
-            {/* Вкладені маршрути для сторінки вкладок */}
             <Route path="tabs">
               <Route index element={<TabsPage />} />
               <Route path=":tabId" element={<TabsPage />} />
             </Route>
 
-            {/* Сторінка не знайдена */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
