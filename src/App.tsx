@@ -1,13 +1,14 @@
+import React from 'react';
+import { Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
+import { HomePage } from './components/HomePage.tsx';
+import { TabsPage } from './components/TabsPage.tsx';
+import { NotFoundPage } from './components/NotFoundPage.tsx';
+
 import 'bulma/css/bulma.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './App.scss';
-import { HomePage } from './components/HomePage';
-import { TabsPage } from './components/TabsPage';
 
-import { Link, useLocation, Routes, Route, Navigate } from 'react-router-dom';
-import { NotFoundPage } from './components/NotFoundPage';
-
-export const App = () => {
+export const App: React.FC = () => {
   const location = useLocation();
 
   const isHomeActive = location.pathname === '/';
@@ -15,6 +16,7 @@ export const App = () => {
 
   return (
     <>
+      {/* Навігація сайту */}
       <nav
         className="navbar is-light is-fixed-top is-mobile has-shadow"
         data-cy="Nav"
@@ -23,7 +25,7 @@ export const App = () => {
           <div className="navbar-brand">
             <Link
               to="/"
-              className={` navbar-item ${isHomeActive ? 'is-active ' : ''}`}
+              className={`navbar-item ${isHomeActive ? 'is-active' : ''}`}
             >
               Home
             </Link>
@@ -37,15 +39,20 @@ export const App = () => {
         </div>
       </nav>
 
+      {/* Головний контейнер для сторінок */}
       <div className="section">
         <div className="container">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="home" element={<Navigate to="/" replace />} />
+
+            {/* Вкладені маршрути для сторінки вкладок */}
             <Route path="tabs">
               <Route index element={<TabsPage />} />
               <Route path=":tabId" element={<TabsPage />} />
             </Route>
+
+            {/* Сторінка не знайдена */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>

@@ -16,6 +16,7 @@ export const TabsPage: React.FC = () => {
   return (
     <>
       <h1 className="title">Tabs page</h1>
+
       <div className="tabs is-boxed">
         <ul>
           {tabs.map(tab => {
@@ -23,9 +24,9 @@ export const TabsPage: React.FC = () => {
 
             return (
               <li
+                key={tab.id}
                 data-cy="Tab"
                 className={isActive ? 'is-active' : ''}
-                key={tab.id}
               >
                 <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
               </li>
