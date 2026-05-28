@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import { Tab as TabType } from '../types/Tab';
 
@@ -15,7 +15,9 @@ export const TabsPage: React.FC = () => {
 
   const currentIdx = tabs.findIndex(tab => tab.id === tabId);
 
+
   const selectedIndex = currentIdx >= 0 ? currentIdx : -1;
+
 
   const handleSelect = (index: number) => {
     const targetTab = tabs[index];
@@ -31,24 +33,27 @@ export const TabsPage: React.FC = () => {
         onSelect={handleSelect}
         selectedTabClassName="is-active"
       >
-        <div className="tabs is-boxed">
-          <TabList>
-            {tabs.map(tab => (
-              <Tab key={tab.id} data-cy="Tab">
-                <a href={`#/tabs/${tab.id}`} onClick={e => e.preventDefault()}>
-                  {tab.title}
-                </a>
-              </Tab>
-            ))}
-          </TabList>
-        </div>
+
+        <TabList>
+          {tabs.map((tab) => (
+            <Tab key={tab.id} data-cy="Tab">
+
+              <Link
+                to={`/tabs/${tab.id}`}
+                onClick={(e) => e.preventDefault()}
+              >
+                {tab.title}
+              </Link>
+            </Tab>
+          ))}
+        </TabList>
 
         {selectedIndex === -1 ? (
           <div className="block" data-cy="TabContent">
             Please select a tab
           </div>
         ) : (
-          tabs.map(tab => {
+          tabs.map((tab) => {
             const isCurrent = tab.id === tabId;
 
             return (

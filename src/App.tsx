@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
-import { HomePage } from './components/HomePage.tsx';
-import { TabsPage } from './components/TabsPage.tsx';
-import { NotFoundPage } from './components/NotFoundPage.tsx';
+import { HomePage } from './components/HomePage';
+import { TabsPage } from './components/TabsPage';
+import { NotFoundPage } from './components/NotFoundPage';
 
 import 'bulma/css/bulma.css';
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -16,7 +16,10 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <nav className="navbar is-light is-fixed-top is-mobile has-shadow" data-cy="Nav">
+      <nav
+        className="navbar is-light is-fixed-top is-mobile has-shadow"
+        data-cy="Nav"
+      >
         <div className="container">
           <div className="navbar-brand">
             <Link
