@@ -14,10 +14,7 @@ export const TabsPage: React.FC = () => {
   const navigate = useNavigate();
 
   const currentIdx = tabs.findIndex(tab => tab.id === tabId);
-
-
   const selectedIndex = currentIdx >= 0 ? currentIdx : -1;
-
 
   const handleSelect = (index: number) => {
     const targetTab = tabs[index];
@@ -33,20 +30,25 @@ export const TabsPage: React.FC = () => {
         onSelect={handleSelect}
         selectedTabClassName="is-active"
       >
-
-        <TabList>
-          {tabs.map((tab) => (
-            <Tab key={tab.id} data-cy="Tab">
-
-              <Link
-                to={`/tabs/${tab.id}`}
-                onClick={(e) => e.preventDefault()}
+        {/* ОГОРОДЖУЄМО КЛАСОМ BULMA: Оскільки TabList — це <ul>, а Tab — це <li> */}
+        <div className="tabs is-boxed">
+          <TabList className="">
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.id}
+                data-cy="Tab"
+                className="" // Скидаємо стандартні стилі бібліотеки, щоб увімкнути Bulma
               >
-                {tab.title}
-              </Link>
-            </Tab>
-          ))}
-        </TabList>
+                <Link
+                  to={`/tabs/${tab.id}`}
+                  onClick={(e) => e.preventDefault()}
+                >
+                  {tab.title}
+                </Link>
+              </Tab>
+            ))}
+          </TabList>
+        </div>
 
         {selectedIndex === -1 ? (
           <div className="block" data-cy="TabContent">
